@@ -1,0 +1,11 @@
+{
+  "name": "businessflow-xlayer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Programmable business agreements and conditional settlement on X Layer with TapeOut circuits",
+  "scripts": {
+    "test": "node --test scripts/*.test.mjs",
+    "serve": "python -m http.server 4173 --directory frontend"
+  },
+  "engines": { "node": ">=20" }
+}
