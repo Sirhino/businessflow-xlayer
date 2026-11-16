@@ -1,0 +1,70 @@
+{
+  "name": "BusinessFlowReleasePolicy",
+  "version": "0.1.0",
+  "format": "TAP-02 NAND netlist",
+  "status": "locally-generated-and-validated; not yet taped out",
+  "nIn": 3,
+  "nOut": 1,
+  "gateCount": 6,
+  "outputSignal": 10,
+  "netlistHex": "000000020000020000000300000300000005000006000000040000040000000700000800000009000009",
+  "sha256": "20967280c0c34ed544c431ad82a2b46a62b056aba47eeee981082b163c7fb3ed",
+  "truthTable": [
+    {
+      "packedInput": 0,
+      "buyerApproved": 0,
+      "verifierApproved": 0,
+      "disputed": 0,
+      "releaseAllowed": 0
+    },
+    {
+      "packedInput": 1,
+      "buyerApproved": 1,
+      "verifierApproved": 0,
+      "disputed": 0,
+      "releaseAllowed": 1
+    },
+    {
+      "packedInput": 2,
+      "buyerApproved": 0,
+      "verifierApproved": 1,
+      "disputed": 0,
+      "releaseAllowed": 1
+    },
+    {
+      "packedInput": 3,
+      "buyerApproved": 1,
+      "verifierApproved": 1,
+      "disputed": 0,
+      "releaseAllowed": 1
+    },
+    {
+      "packedInput": 4,
+      "buyerApproved": 0,
+      "verifierApproved": 0,
+      "disputed": 1,
+      "releaseAllowed": 0
+    },
+    {
+      "packedInput": 5,
+      "buyerApproved": 1,
+      "verifierApproved": 0,
+      "disputed": 1,
+      "releaseAllowed": 0
+    },
+    {
+      "packedInput": 6,
+      "buyerApproved": 0,
+      "verifierApproved": 1,
+      "disputed": 1,
+      "releaseAllowed": 0
+    },
+    {
+      "packedInput": 7,
+      "buyerApproved": 1,
+      "verifierApproved": 1,
+      "disputed": 1,
+      "releaseAllowed": 0
+    }
+  ]
+}
