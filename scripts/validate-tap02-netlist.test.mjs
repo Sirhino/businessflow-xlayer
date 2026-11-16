@@ -21,12 +21,8 @@ test("validates the BusinessFlow release circuit", () => {
 });
 
 test("rejects invalid netlist length", () => {
-  assert.throws(
-    () => validateTap02Netlist(
-      new Uint8Array([0, 0]),
-      3,
-      1
-    )
+  assert.throws(() =>
+    validateTap02Netlist(new Uint8Array([0, 0]), 3, 1)
   );
 });
 
@@ -34,8 +30,8 @@ test("rejects unsupported opcodes", () => {
   const invalid = new Uint8Array(7);
   invalid[0] = 0xff;
 
-  assert.throws(
-    () => validateTap02Netlist(invalid, 3, 1)
+  assert.throws(() =>
+    validateTap02Netlist(invalid, 3, 1)
   );
 });
 
@@ -46,15 +42,23 @@ test("rejects forward signal references", () => {
     0x00, 0x00, 0x02
   ]);
 
-  assert.throws(
-    () => validateTap02Netlist(invalid, 3, 1)
+  assert.throws(() =>
+    validateTap02Netlist(invalid, 3, 1)
   );
 });
 
-test("rejects invalid output count", () => {
+test("rejects output count greater than gate count", () => {
   const circuit = buildReleaseNetlist();
 
-  assert.throws(
-    () => validateTap02Netlist(circuit.netlist, 3, 12)
+  assert.throws(() =>
+    validateTap02Netlist(circuit.netlist, 3, 7)
+  );
+});
+
+test("rejects invalid input count", () => {
+  const circuit = buildReleaseNetlist();
+
+  assert.throws(() =>
+    validateTap02Netlist(circuit.netlist, -1, 1)
   );
 });

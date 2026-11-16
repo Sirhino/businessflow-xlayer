@@ -4,11 +4,11 @@ export function validateTap02Netlist(netlist, nIn, nOut) {
     throw new Error("Netlist must be a Uint8Array");
   }
 
-  if (!Number.isInteger(nIn) || nIn < 0) {
+  if (!Number.isInteger(nIn) || nIn < 0 || nIn > 0xffffffff) {
     throw new Error("Invalid input count");
   }
 
-  if (!Number.isInteger(nOut) || nOut < 1) {
+  if (!Number.isInteger(nOut) || nOut < 1 || nOut > 0xffffffff) {
     throw new Error("Invalid output count");
   }
 
@@ -16,14 +16,23 @@ export function validateTap02Netlist(netlist, nIn, nOut) {
     throw new Error("Netlist length must be divisible by 7");
   }
 
-  // Signals 0 and 1 are constants.
-  // Input signals begin at index 2.
-  let signalCount = 2 + nIn;
   const gateCount = netlist.length / 7;
 
+  if (nOut > gateCount) {
+    throw new Error("Outputs must reference existing gate signals");
+  }
+
+  // TAP-02 signal layout:
+  // 0 = constant zero
+  // 1 = constant one
+  // Inputs begin at signal 2.
+  let signalCount = 2 + nIn;
+
   for (let i = 0; i < netlist.length; i += 7) {
+    const gateIndex = i / 7;
+
     if (netlist[i] !== 0x00) {
-      throw new Error(`Unsupported opcode at byte ${i}`);
+      throw new Error(`Unsupported NAND opcode at gate ${gateIndex}`);
     }
 
     const a =
@@ -36,17 +45,11 @@ export function validateTap02Netlist(netlist, nIn, nOut) {
       (netlist[i + 5] << 8) |
       netlist[i + 6];
 
-    // Both references must point to existing signals.
-    // This also prevents forward references.
     if (a >= signalCount || b >= signalCount) {
-      throw new Error(`Invalid signal reference in gate ${i / 7}`);
+      throw new Error(`Invalid signal reference at gate ${gateIndex}`);
     }
 
     signalCount++;
-  }
-
-  if (nOut > signalCount) {
-    throw new Error("Output count exceeds available signals");
   }
 
   return {
